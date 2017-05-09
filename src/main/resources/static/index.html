@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="fizzBuzzApp">
+<head>
+    <meta charset="UTF-8">
+    <title>FizzBuzz App</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+</head>
+<body ng-controller="fizzBuzzController">
+
+<div class="container">
+    <h2>FizzBuzz App</h2>
+    <form class="form-horizontal" name="fbForm">
+        <div class="form-group">
+            <div class="col-md-4" ng-class="{ 'has-error' : fbForm.fbModel.$invalid}">
+                <h4>Input:</h4>
+                <textarea class="form-control" rows="20" cols="9" ng-model="fbModel" name="fbModel" data-fb-validator
+                          required></textarea>
+                <br/>
+                <p ng-show="fbForm.fbModel.$error.fbInvalid" class="help-block">Invalid input data</p>
+                <p ng-show="fbForm.fbModel.$error.fbTestCasesOutOfRange" class="help-block">20 rows maximum are
+                    allowed</p>
+                <button class="btn btn-default" ng-disabled="fbForm.$invalid" ng-click="submitFizzBuzz()">Submit
+                </button>
+            </div>
+            <div class="col-md-8">
+                <h4>Results:</h4>
+                <div class="row" data-ng-repeat="x in res track by $index">
+                    <li>{{x}}</li>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script src="js/angular.min.js"></script>
+<script src="js/fizzbuzz.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:property-placeholder location="application.properties"/>
+
+    <bean class="com.rachfal.service.Processor" id="fizzProcessor">
+        <constructor-arg name="letter" value="Fizz"></constructor-arg>
+    </bean>
+
+    <bean class="com.rachfal.service.Processor" id="buzzProcessor">
+        <constructor-arg name="letter" value="Buzz"></constructor-arg>
+    </bean>
+
+
+    <bean class="com.rachfal.service.FizzBuzzServiceImpl" id="fizzBuzzService">
+        <constructor-arg name="processors">
+            <list>
+                <ref bean="fizzProcessor"/>
+                <ref bean="buzzProcessor"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean class="com.rachfal.controller.FizzBuzzController" id="fizzBuzzController">
+        <constructor-arg name="resultFormatterFacade" ref="resultFormatterFacade"></constructor-arg>
+        <constructor-arg name="validator" ref="fizzBuzzValidator"></constructor-arg>
+    </bean>
+
+    <bean id="fizzBuzzValidator" class="com.rachfal.controller.FizzBuzzValidator">
+        <constructor-arg name="counterMin" value="10"></constructor-arg>
+        <constructor-arg name="counterMax" value="100"></constructor-arg>
+        <constructor-arg name="dividerMin" value="1"></constructor-arg>
+        <constructor-arg name="dividerMax" value="20"></constructor-arg>
+    </bean>
+
+    <bean class="com.rachfal.formatter.StringFormatter" id="stringFormatter"></bean>
+
+    <bean class="com.rachfal.formatter.ResultFormatterFacade" id="resultFormatterFacade">
+        <constructor-arg name="fizzBuzzService" ref="fizzBuzzService"></constructor-arg>
+        <constructor-arg name="formatter" ref="stringFormatter"></constructor-arg>
+    </bean>
+
+
+</beans>
